@@ -1,0 +1,248 @@
+README for COT 5405 Project by Laura Battle
+
+Instructions for each program are given in detail at the top of each .cpp file.
+
+---------------------------------------------------------------------------------
+QuickStart
+---------------------------------------------------------------------------------
+
+Step 1: Type "make"
+
+Step 2: Type "make clean"
+
+Step 3: Generate random graphs
+     To generate a random edge list for a directed graph, an undirected graph,
+     and a directed graph with no reverse edges in the files "directed.in",
+     "undirected.in" and "flow.in" with p values of 0.1, 20 nodes, and max edge
+     weights of 100, type: 
+
+     	 Directed.exe
+	 Undirected.exe
+	 Flow.exe
+
+Step 4 (optional): Generate random graphs with different parameters
+     Alter the p-value to 0.15, nodes to 50, and max weight to 5000 for each
+     graph while giving filenames for the outputs:
+
+	 Directed.exe 0.15 50 5000 directedTest.in
+	 Undirected.exe 0.15 50 5000 undirectedTest.in
+	 Flow.exe 0.15 50 5000 flowTest.in
+
+**Please note the error checking on this is not robust, so enter these correctly** 
+***Programs will accept no arguments or all arguments, nothing in between***
+
+Step 5 (optional): There will be a file called "AdjListDS.exe" you can run this to
+     see what the data structure of the Adjacency list looks like. This is the data
+     structure used for the algorithms. To use it type:
+
+     	  AdjListDS.exe file.in (optional third argument)
+
+     the second argument is the file you want read into the data structure. If you 
+     type in any argument after the file, it will also create the transpose of the
+     graph and dump it. This additional functionality was built for something that
+     ultimately was not done, but I haven't deleted it in case I want to use it in 
+     the future.
+
+Below are instructions for BFS, Prims, Dijkstra, DFS and MinCut
+
+----------------------------------------------------------------------------------
+DFS and Prims - UNDIRECTED GRAPHS
+----------------------------------------------------------------------------------
+
+These programs are built to work with undirected graphs with edge weights. The 
+edge weights are ignored in DFS and used in Prims. Each program has two modes, 
+regular and verbose. 
+                              ------------
+                              REGULAR MODE
+                              ------------
+To run a program in regular mode type the name of the executable with the file 
+containing the graph like so:
+
+     DFS.exe file.in
+     Prims.exe file.in
+
+For Prims, this means the root is set to its default value of 1. If you want to
+use a different root for Prims, enter it as a third argument. If you enter a 
+root value larger than the largest node value, it will default back to one. An
+example for how to do this would be:
+
+     Prims.exe file.in 4
+
+DFS.exe will output the number of connected components contained in the graph.
+Prims will output the minimum spanning tree of the graph to the console and
+it will also contain the weights. If the number of nodes to be evaluated is
+over 100, the output will be redirected to a file called "prims.out" and the
+console will inform you of this.
+
+The Prims spanning tree will look something like this:
+1
+--2 (4)
+----3 (8)
+------4 (7)
+--------5 (9)
+------6 (4)
+--------7 (2)
+----------8 (1)
+------9 (2)
+
+This is interprted as
+
+   1
+   |
+   2
+   |
+   3
+ / | \
+4  6  9
+|  |
+5  7
+   |
+   8
+
+and the value in the parentheses are the edge weights. I got the idea for how
+to represent this from the following website:
+https://www.geeksforgeeks.org/print-n-ary-tree-graphically/
+and added a "level" member of my vertex struct to keep track of the level
+each vertex should be in on the tree.
+
+The example given above is from pg 635 in the book and is provided in the 
+folder as "testprim.in"
+
+Lastly, once you start to run these programs the files "prims.time" and
+"dfs.time" will appear and start to record runtimes. Each new runtime
+will be appended to the file in the form: nodes edges runtime.
+
+                              ------------
+                              VERBOSE MODE
+                              ------------
+
+Verbose mode will output the final state of the Graph with its values of 
+discovery times, predecessors, etc. depending on the algorithm. This mode 
+is disabled when there are over 100 nodes.
+It is invoked by simply adding any argument. So if you want to run it with
+Prims, you will need to provide a root node. You can run it like this:
+
+       DFS.exe file.in y
+       Prims.exe file.in 1 y
+
+This last argument can be any character input, it doesn't have to be y. 
+
+----------------------------------------------------------------------------------
+BFS and Dijkstra - DIRECTED GRAPHS
+----------------------------------------------------------------------------------
+
+These programs are built to work with directed graphs with edge weights. The
+edge weights are ignored in BFS and used in Dijkstra. Each program has two modes,
+regular and verbose.
+                              ------------
+                              REGULAR MODE
+                              ------------
+To run a program in regular mode type the name of the executable with the file
+containing the graph like so:
+
+     BFS.exe file.in
+     Dijkstra.exe file.in
+
+This means the source is set to its default value of 1. If you want to
+use a different source, enter it as a third argument. If you enter a
+root value larger than the largest node value, it will default back to one.
+An example for how to do this would be:
+
+   BFS.exe file.in 6
+   Dijkstra.exe file.in 6
+
+BFS.exe will output the number of hops from each vertex to the source outputting
+infinity if the vertex is unreachable. Dijkstra will do the same except that it
+will output the distance according to edge weight. For both of these, if the 
+number of nodes to be evaluated is over 100, the output will be redirected to a
+file called "bfs.out" or "dijkstra.out" and the console will inform you of this.
+
+Lastly, once you start to run these programs the files "bfs.time" and
+"dijkstra.time" will appear and start to record runtimes. Each new runtime
+will be appended to the file in the form: nodes edges runtime.
+
+                              ------------
+                              VERBOSE MODE
+                              ------------
+
+Verbose mode will output the final state of the Graph with its values of
+hop distances, predecessors, etc. depending on the algorithm. This mode
+is disabled when there are over 100 nodes.
+It is invoked by simply adding any argument. So if you want to run it with
+these algorithms you will need to provide a source node.
+You can run it like this:
+
+    BFS.exe file.in 1 y
+    Dijkstra.exe file.in 1 y
+
+This last argument can be any character input, it doesn't have to be y.
+
+
+----------------------------------------------------------------------------------
+MinCut - FLOW GRAPHS
+----------------------------------------------------------------------------------
+This program is built to work with directed graphs with edge weights, no self loops
+and no reverse edges. The program has two modes, regular and verbose.
+                              ------------
+                              REGULAR MODE
+                              ------------
+To run the program in regular mode type the name of the executable with the file
+containing the graph like so:
+
+     MinCut.exe file.in
+
+This means the source and sink are set to default values of 1 and 2. This program
+will crash if you try to run it on a graph with fewer than two nodes. If you want
+to use a different source and sink, enter them as 3rd and 4th arguments.
+ If you enter source or sink values larger than the largest node value, they 
+will default back t 1 and 2 respectively.
+An example for how to do this would be:
+
+   MinCut.exe file.in 1 6
+
+The file exflow.in is provided in the repository and is the example from CLRS
+of the hockey pucks. The MinCut.cpp file explains this in detail in its comments
+at the top. This program will output the maximum flow value between these two
+vertices.
+
+Lastly, once you start to run this program the files "minCut.time" will appear
+and start to record runtimes. Each new runtime will be appended to the file in
+the form: nodes edges runtime.
+
+                              ------------
+                              VERBOSE MODE
+                              ------------
+
+Verbose mode will output each residual graph created. This mode is disabled
+when there are over 50 nodes. It is invoked by simply adding any argument. 
+So if you want to run it with these algorithms you will need to provide a 
+source and a sink. You can run it like this:
+
+    MinCut.exe file.in 1 6 y
+
+This last argument can be any character input, it doesn't have to be y.
+
+----------------------------------------------------------------------------------
+FILE STRUCTURE
+----------------------------------------------------------------------------------
+
+makefile targets everything. All files except AdjListDS.cpp depend on DataStruc.cpp
+which has a separate header file DataStruc.h which is included at the top of all
+programs except for AdjListDS.cpp.
+
+All algorithm files will require that you give an appropriate file for them to
+operate on.
+
+----------------------------------------------------------------------------------
+KNOWN ISSUES
+----------------------------------------------------------------------------------
+
+Error checking on user input is not necessarily robust.
+
+Infinity is represented by "TINY_INFINTIY" which is 2,147,483,647 which obviously has 
+limitations.
+
+Min Priority Queues were not implemented for Dijkstra or Prims. Mainly because the
+backend had already been done and the implementation of this would not have been
+particularly straightforward that I could see. So these are not as fast as they
+could be.
