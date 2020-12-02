@@ -242,7 +242,6 @@ Error checking on user input is not necessarily robust.
 Infinity is represented by "TINY_INFINTIY" which is 2,147,483,647 which obviously has 
 limitations.
 
-Min Priority Queues were not implemented for Dijkstra or Prims. Mainly because the
-backend had already been done and the implementation of this would not have been
-particularly straightforward that I could see. So these are not as fast as they
-could be.
+My use of Minimum Priority Queues may be problematic.
+
+Flow graphs and Undirected graphs take substantially longer to generate due to sorting (done with quicksort).
